@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Park View – Indaiatuba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       TOKENS — identidade The Park View
+       Paleta: Marinho profundo + Esmeralda discreta
+       + Crème perolado. Luxo sereno, nunca gritante.
+    ═══════════════════════════════════════════ */
+    :root {
+      --navy:        #1a3352;
+      --navy-deep:   #0f1f33;
+      --teal:        #0d6b62;
+      --teal-light:  #1a8a80;
+      --cream:       #f5f0e8;
+      --cream-2:     #ede8de;
+      --white:       #ffffff;
+      --off-white:   #fafaf8;
+      --text:        #1a1a2e;
+      --text-mid:    #3d4a5c;
+      --text-soft:   #6b7a8d;
+      --gold-line:   #c9a96e;
+      --border-soft: rgba(26,51,82,.10);
+      --border-teal: rgba(13,107,98,.18);
+
+      --grad-main:    linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+      --grad-subtle:  linear-gradient(135deg, #1a3352 0%, #0d6b62 100%);
+      --grad-cream:   linear-gradient(180deg, var(--cream) 0%, var(--off-white) 100%);
+
+      --shadow-sm:  0 2px 12px rgba(26,51,82,.07);
+      --shadow-md:  0 8px 32px rgba(26,51,82,.11);
+      --shadow-lg:  0 20px 60px rgba(26,51,82,.14);
+      --shadow-xl:  0 32px 80px rgba(26,51,82,.18);
+
+      --radius-sm:  8px;
+      --radius-md:  16px;
+      --radius-lg:  24px;
+      --radius-xl:  32px;
+
+      --ease-out:   cubic-bezier(.22,.68,0,1.2);
+    }
+
+    *, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--off-white);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 4px; }
+
+    /* ─── UTILITÁRIOS ─── */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 11px; font-weight: 600; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 20px;
+    }
+    .eyebrow::before {
+      content: ''; display: block;
+      width: 28px; height: 1.5px;
+      background: var(--teal);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 4.5vw, 64px);
+      font-weight: 400; line-height: 1.15;
+      color: var(--text);
+      letter-spacing: -.5px;
+    }
+    .section-title em {
+      font-style: italic;
+      background: var(--grad-subtle);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left  { opacity:0; transform:translateX(-40px); transition:opacity .9s ease,transform .9s ease; }
+    .reveal-right { opacity:0; transform:translateX(40px);  transition:opacity .9s ease,transform .9s ease; }
+    .reveal-left.visible, .reveal-right.visible { opacity:1; transform:translateX(0); }
+
+    /* ══════════════════════════════
+       NAVBAR
+    ══════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 60px;
+      transition: all .4s ease;
+    }
+    nav::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0);
+      backdrop-filter: blur(0px);
+      border-bottom: 1px solid transparent;
+      transition: all .4s ease;
+      z-index: -1;
+    }
+    nav.scrolled::before {
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(16px);
+      border-bottom-color: var(--border-soft);
+      box-shadow: var(--shadow-sm);
+    }
+    nav.scrolled { padding: 16px 60px; }
+
+    .nav-logo { display: flex; flex-direction: column; gap: 3px; cursor: pointer; }
+    .nav-logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 600;
+      letter-spacing: 1px;
+      background: var(--grad-main);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      transition: opacity .3s;
+    }
+    .nav-logo-name-white {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 600;
+      letter-spacing: 1px; color: white;
+      transition: opacity .3s;
+    }
+    .nav-logo-sub {
+      font-size: 10px; letter-spacing: 4px;
+      text-transform: uppercase; color: rgba(255,255,255,.65);
+      font-weight: 500; transition: color .4s;
+    }
+    nav.scrolled .nav-logo-sub { color: var(--text-soft); }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500;
+      letter-spacing: .5px; text-decoration: none;
+      color: rgba(255,255,255,.8);
+      transition: color .3s; position: relative; padding-bottom: 4px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--grad-main); transition: width .3s ease;
+    }
+    .nav-links a:hover { color: white; }
+    .nav-links a:hover::after { width: 100%; }
+    nav.scrolled .nav-links a { color: var(--text-mid); }
+    nav.scrolled .nav-links a:hover { color: var(--navy); }
+
+    .nav-cta {
+      background: var(--white);
+      color: var(--navy);
+      border: none; border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 12px 28px; cursor: pointer;
+      transition: all .3s;
+      box-shadow: 0 2px 16px rgba(255,255,255,.2);
+    }
+    nav.scrolled .nav-cta {
+      background: var(--grad-main);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    #hero {
+      position: relative; height: 100vh;
+      display: flex; align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(160deg, rgba(15,31,51,.72) 0%, rgba(13,107,98,.45) 55%, rgba(15,31,51,.6) 100%),
+        url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80') center/cover no-repeat;
+      transform-origin: center;
+      animation: slowZoom 22s ease-in-out infinite alternate;
+    }
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to   { transform: scale(1.07); }
+    }
+    /* Textura sutil de grain sobre o hero */
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: .5;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 80px 96px;
+      max-width: 860px;
+      animation: heroIn 1.2s var(--ease-out) both;
+    }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 14px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,.75); margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 40px; height: 1.5px;
+      background: var(--gold-line);
+    }
+    .hero-eyebrow-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--gold-line); display: inline-block;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(60px, 8.5vw, 110px);
+      font-weight: 400; line-height: .95;
+      letter-spacing: -2px; color: var(--white);
+      margin-bottom: 20px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255,255,255,.6);
+    }
+
+    .hero-rule {
+      width: 48px; height: 1px;
+      background: var(--gold-line);
+      margin-bottom: 24px;
+    }
+
+    .hero-desc {
+      font-size: 17px; font-weight: 300;
+      color: rgba(255,255,255,.88);
+      max-width: 520px; line-height: 1.8;
+      margin-bottom: 52px;
+    }
+
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--white);
+      color: var(--navy);
+      border: none; border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 17px 40px; cursor: pointer;
+      transition: all .3s;
+      box-shadow: 0 4px 24px rgba(0,0,0,.15);
+    }
+    .btn-primary:hover {
+      background: var(--cream);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.2);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,.9);
+      border: 1.5px solid rgba(255,255,255,.35);
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 17px 40px; cursor: pointer;
+      transition: all .3s;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,.7);
+      background: rgba(255,255,255,.08);
+      transform: translateY(-3px);
+    }
+
+    /* Stats flutuantes */
+    .hero-stats {
+      position: absolute; right: 80px; bottom: 96px;
+      z-index: 2;
+      display: flex; gap: 0;
+      animation: heroIn 1.4s var(--ease-out) .2s both;
+    }
+    .stat {
+      text-align: center; padding: 28px 36px;
+      border-left: 1px solid rgba(255,255,255,.12);
+      position: relative;
+    }
+    .stat:first-child { border-left: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 46px; font-weight: 500; line-height: 1;
+      color: var(--white);
+      display: block; margin-bottom: 6px;
+    }
+    .stat-num sup { font-size: 18px; vertical-align: super; }
+    .stat-label {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,.6); font-weight: 500;
+    }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      cursor: pointer;
+      animation: fadeInUp 1.6s ease .8s both;
+    }
+    @keyframes fadeInUp { from{opacity:0;transform:translateX(-50%) translateY(16px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+    .hero-scroll span {
+      font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,.5); font-weight: 500;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100%{ transform: scaleY(1); opacity:.5 }
+      50%{ transform: scaleY(1.3); opacity:1 }
+    }
+
+    /* ══════════════════════════════
+       BRAND STRIP
+    ══════════════════════════════ */
+    .brand-strip {
+      background: var(--navy-deep);
+      padding: 28px 80px;
+      display: flex; align-items: center; justify-content: center; gap: 80px;
+      overflow: hidden;
+    }
+    .strip-item {
+      display: flex; align-items: center; gap: 12px;
+      white-space: nowrap;
+    }
+    .strip-item-icon {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(201,169,110,.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .strip-item span {
+      font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,.55);
+      font-weight: 500;
+    }
+    .strip-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold-line); opacity: .5; }
+
+    /* ══════════════════════════════
+       SOBRE
+    ══════════════════════════════ */
+    #sobre {
+      background: var(--white);
+      max-width: none; padding: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .sobre-image-wrap {
+      position: relative; overflow: hidden;
+      min-height: 680px;
+    }
+    .sobre-image-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform .8s ease;
+    }
+    .sobre-image-wrap:hover img { transform: scale(1.04); }
+    /* Overlay lateral */
+    .sobre-image-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent 60%, var(--white));
+      pointer-events: none;
+    }
+    /* Badge flutuante */
+    .sobre-badge {
+      position: absolute; bottom: 48px; left: 48px;
+      background: var(--navy-deep);
+      color: white; padding: 20px 28px;
+      border-radius: var(--radius-md);
+      z-index: 2;
+      box-shadow: var(--shadow-lg);
+    }
+    .sobre-badge-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px; font-weight: 500; line-height: 1;
+      background: var(--grad-main);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .sobre-badge-label {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,.55); font-weight: 500;
+    }
+
+    .sobre-text {
+      padding: 100px 80px 100px 64px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .sobre-text > p {
+      font-size: 17px; color: var(--text-mid);
+      line-height: 1.85; margin-top: 28px; max-width: 480px;
+    }
+    .sobre-pillars {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; margin-top: 52px;
+    }
+    .pillar {
+      padding: 24px 24px 24px 0;
+      border-top: 1px solid var(--border-soft);
+      position: relative;
+    }
+    .pillar::before {
+      content: '';
+      position: absolute; top: -1px; left: 0;
+      width: 0; height: 2px;
+      background: var(--grad-main);
+      transition: width .5s ease;
+    }
+    .pillar:hover::before { width: 40px; }
+    .pillar-icon {
+      font-size: 22px; margin-bottom: 10px; display: block;
+    }
+    .pillar-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .pillar-text {
+      font-size: 14px; color: var(--text-soft); line-height: 1.7;
+    }
+
+    /* ══════════════════════════════
+       LOCALIZAÇÃO
+    ══════════════════════════════ */
+    #localizacao {
+      background: var(--cream); max-width: none;
+      padding: 120px 80px;
+    }
+    .localizacao-inner {
+      max-width: 1260px; margin: 0 auto;
+    }
+    .localizacao-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: end; margin-bottom: 72px;
+    }
+    .localizacao-header .lead {
+      font-size: 17px; color: var(--text-mid);
+      line-height: 1.8; align-self: end;
+      padding-bottom: 4px;
+    }
+
+    .loc-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border-soft);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .loc-card {
+      background: var(--white);
+      padding: 48px 36px;
+      transition: all .4s ease;
+      position: relative; overflow: hidden;
+    }
+    .loc-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad-main);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s ease;
+    }
+    .loc-card:hover { background: var(--off-white); transform: none; }
+    .loc-card:hover::before { transform: scaleX(1); }
+
+    .loc-icon-wrap {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, rgba(26,51,82,.07) 0%, rgba(13,107,98,.07) 100%);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    .loc-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; color: var(--text);
+      margin-bottom: 10px; font-weight: 500;
+    }
+    .loc-card p {
+      font-size: 14px; color: var(--text-soft);
+      line-height: 1.7;
+    }
+
+    .loc-address-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 20px; padding: 22px 36px;
+      background: var(--navy-deep);
+      border-radius: var(--radius-md);
+    }
+    .loc-address-bar svg { opacity: .6; flex-shrink: 0; }
+    .loc-address-bar p {
+      font-size: 13px; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,.7);
+      font-weight: 500;
+    }
+    .loc-address-bar span { color: var(--gold-line); }
+
+    /* ══════════════════════════════
+       NÚMEROS / IMPACTO
+    ══════════════════════════════ */
+    #numeros {
+      background: var(--navy-deep);
+      max-width: none; padding: 100px 80px;
+    }
+    .numeros-inner {
+      max-width: 1260px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 100px; align-items: center;
+    }
+    .numeros-text .eyebrow { color: rgba(201,169,110,.8); }
+    .numeros-text .eyebrow::before { background: rgba(201,169,110,.8); }
+    .numeros-text .section-title { color: white; }
+    .numeros-text .section-title em {
+      font-style: italic;
+      -webkit-text-stroke: 1px rgba(255,255,255,.4);
+      -webkit-text-fill-color: transparent;
+      background: none;
+    }
+    .numeros-text p {
+      font-size: 16px; color: rgba(255,255,255,.55);
+      line-height: 1.8; margin-top: 20px;
+    }
+    .numeros-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .numero-item {
+      padding: 48px 40px;
+      background: rgba(255,255,255,.03);
+      transition: background .3s;
+    }
+    .numero-item:hover { background: rgba(255,255,255,.06); }
+    .numero-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px; font-weight: 400; line-height: 1;
+      background: var(--grad-main);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 8px; display: block;
+    }
+    .numero-val sup { font-size: 22px; }
+    .numero-label {
+      font-size: 11px; letter-spacing: 3px;
+      text-transform: uppercase; color: rgba(255,255,255,.4);
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════
+       LAZER
+    ══════════════════════════════ */
+    #lazer {
+      background: var(--off-white); max-width: none;
+      padding: 120px 80px;
+    }
+    .lazer-inner { max-width: 1260px; margin: 0 auto; }
+    .lazer-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .lazer-tabs {
+      display: flex; gap: 4px;
+      background: var(--cream-2);
+      padding: 5px; border-radius: 50px;
+    }
+    .lazer-tab {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 1px;
+      padding: 9px 22px; border: none;
+      background: transparent; color: var(--text-soft);
+      border-radius: 50px; cursor: pointer;
+      transition: all .3s;
+    }
+    .lazer-tab:hover { color: var(--navy); }
+    .lazer-tab.active {
+      background: var(--white);
+      color: var(--navy);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .amenities-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .amenity {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      display: flex; align-items: flex-start; gap: 14px;
+      border: 1px solid var(--border-soft);
+      transition: all .3s ease;
+      cursor: default;
+    }
+    .amenity:hover {
+      border-color: rgba(13,107,98,.2);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+    .amenity-icon-wrap {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(26,51,82,.06), rgba(13,107,98,.06));
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .amenity h4 {
+      font-size: 14px; font-weight: 600;
+      color: var(--text); margin-bottom: 4px;
+      letter-spacing: .2px;
+    }
+    .amenity p { font-size: 13px; color: var(--text-soft); line-height: 1.6; }
+
+    /* ══════════════════════════════
+       PLANTAS
+    ══════════════════════════════ */
+    #plantas {
+      background: var(--cream); max-width: none;
+      padding: 120px 80px;
+    }
+    .plantas-inner { max-width: 1260px; margin: 0 auto; }
+    .plantas-header { margin-bottom: 60px; }
+    .plantas-lead {
+      font-size: 17px; color: var(--text-mid);
+      max-width: 540px; line-height: 1.8; margin-top: 20px;
+    }
+    .plantas-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .planta-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-soft);
+      transition: all .4s ease;
+      position: relative;
+    }
+    .planta-card:hover {
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-8px);
+    }
+    .planta-card.destaque {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 1px var(--teal), var(--shadow-md);
+    }
+    .planta-destaque-badge {
+      position: absolute; top: 20px; right: 20px; z-index: 2;
+      background: var(--grad-main);
+      color: white; font-size: 10px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 50px;
+    }
+    .planta-img-wrap {
+      aspect-ratio: 4/3; overflow: hidden; position: relative;
+    }
+    .planta-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s ease; filter: brightness(.9);
+    }
+    .planta-card:hover .planta-img-wrap img { transform: scale(1.05); }
+    .planta-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(15,31,51,.5) 0%, transparent 50%);
+    }
+
+    .planta-info { padding: 28px 28px 32px; }
+    .planta-tag {
+      font-size: 10px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--teal); margin-bottom: 8px;
+    }
+    .planta-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; font-weight: 400;
+      color: var(--text); margin-bottom: 4px; line-height: 1;
+    }
+    .planta-sub {
+      font-size: 13px; color: var(--text-soft); margin-bottom: 20px;
+    }
+    .planta-divider {
+      height: 1px; background: var(--border-soft); margin-bottom: 20px;
+    }
+    .planta-details {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .planta-detail {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 13px; color: var(--text-mid);
+    }
+    .planta-detail-label { color: var(--text-soft); }
+    .planta-detail-val { font-weight: 600; color: var(--navy); }
+    .planta-cta {
+      margin-top: 24px; display: block; width: 100%;
+      padding: 13px; border: 1.5px solid var(--border-teal);
+      background: transparent; border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--teal);
+      cursor: pointer; transition: all .3s;
+    }
+    .planta-cta:hover {
+      background: var(--teal); color: white; border-color: var(--teal);
+    }
+
+    /* ══════════════════════════════
+       TECNOLOGIA
+    ══════════════════════════════ */
+    #tecnologia {
+      background: var(--white); max-width: none; padding: 0;
+      display: grid; grid-template-columns: 5fr 7fr;
+    }
+    .tech-image-wrap {
+      position: relative; overflow: hidden;
+      min-height: 680px;
+    }
+    .tech-image-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform .8s ease;
+    }
+    .tech-image-wrap:hover img { transform: scale(1.03); }
+    .tech-image-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to left, var(--white) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .tech-content {
+      padding: 100px 80px 100px 64px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .tech-content > p {
+      font-size: 16px; color: var(--text-mid);
+      line-height: 1.8; margin-top: 20px; max-width: 440px;
+      margin-bottom: 52px;
+    }
+    .tech-items { display: flex; flex-direction: column; gap: 0; }
+    .tech-item {
+      display: flex; align-items: flex-start; gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border-soft);
+      transition: padding-left .3s ease;
+    }
+    .tech-item:first-child { border-top: 1px solid var(--border-soft); }
+    .tech-item:hover { padding-left: 8px; }
+    .tech-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 400; line-height: 1;
+      background: var(--grad-main);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      flex-shrink: 0; width: 36px; padding-top: 4px;
+    }
+    .tech-item-body h4 {
+      font-size: 15px; font-weight: 600; letter-spacing: .3px;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .tech-item-body p { font-size: 14px; color: var(--text-soft); line-height: 1.7; }
+
+    /* ══════════════════════════════
+       DEPOIMENTOS
+    ══════════════════════════════ */
+    #depoimentos {
+      background: var(--navy-deep); max-width: none;
+      padding: 120px 80px;
+    }
+    #depoimentos .eyebrow { color: rgba(201,169,110,.8); }
+    #depoimentos .eyebrow::before { background: rgba(201,169,110,.8); }
+    #depoimentos .section-title { color: white; margin-bottom: 56px; }
+    #depoimentos .section-title em {
+      font-style: italic;
+      background: linear-gradient(135deg, #c9a96e, #e8c990);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .depo-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .depo-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      transition: all .4s ease;
+      position: relative; overflow: hidden;
+    }
+    .depo-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-line), transparent);
+      opacity: 0; transition: opacity .4s;
+    }
+    .depo-card:hover {
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.14);
+    }
+    .depo-card:hover::before { opacity: 1; }
+    .depo-quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px; line-height: .7;
+      color: var(--gold-line); opacity: .4;
+      margin-bottom: 16px; display: block;
+    }
+    .depo-stars {
+      font-size: 13px; color: var(--gold-line);
+      letter-spacing: 2px; margin-bottom: 16px;
+    }
+    .depo-text {
+      font-size: 16px; font-style: italic;
+      font-family: 'Playfair Display', serif;
+      color: rgba(255,255,255,.8);
+      line-height: 1.75; margin-bottom: 28px;
+    }
+    .depo-rule {
+      width: 24px; height: 1px;
+      background: var(--gold-line); opacity: .5;
+      margin-bottom: 16px;
+    }
+    .depo-name {
+      font-size: 11px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; color: rgba(255,255,255,.4);
+    }
+
+    /* ══════════════════════════════
+       CONTATO
+    ══════════════════════════════ */
+    #contato {
+      background: var(--off-white); max-width: none;
+      padding: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .contato-left {
+      background: var(--navy-deep);
+      padding: 100px 72px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .contato-left .eyebrow { color: rgba(201,169,110,.8); }
+    .contato-left .eyebrow::before { background: rgba(201,169,110,.8); }
+    .contato-left .section-title { color: white; margin-bottom: 20px; }
+    .contato-left .section-title em {
+      font-style: italic;
+      background: linear-gradient(135deg, #c9a96e, #e8c990);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .contato-left > p {
+      font-size: 16px; color: rgba(255,255,255,.55);
+      line-height: 1.8; max-width: 420px; margin-bottom: 56px;
+    }
+    .contato-channels { display: flex; flex-direction: column; gap: 0; }
+    .channel {
+      display: flex; align-items: center; gap: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      cursor: pointer; transition: padding-left .3s;
+    }
+    .channel:first-child { border-top: 1px solid rgba(255,255,255,.07); }
+    .channel:hover { padding-left: 8px; }
+    .channel-icon-wrap {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border: 1px solid rgba(201,169,110,.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: all .3s;
+    }
+    .channel:hover .channel-icon-wrap {
+      background: rgba(201,169,110,.1);
+      border-color: rgba(201,169,110,.5);
+    }
+    .channel-info { display: flex; flex-direction: column; gap: 3px; }
+    .channel-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold-line); opacity: .7;
+    }
+    .channel-value {
+      font-size: 15px; color: rgba(255,255,255,.75); font-weight: 400;
+    }
+
+    .contato-right { padding: 100px 72px; background: var(--white); }
+    .contato-right h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 400;
+      color: var(--text); margin-bottom: 36px;
+    }
+
+    /* Form */
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-size: 11px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-soft); margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--off-white);
+      border: 1.5px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 400;
+      padding: 14px 16px; outline: none;
+      transition: border .3s, box-shadow .3s;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(13,107,98,.08);
+      background: var(--white);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--text-soft); }
+    .form-group select { cursor: pointer; }
+    .form-group select option { background: white; }
+    .form-group textarea { resize: vertical; min-height: 96px; }
+
+    .btn-submit {
+      width: 100%; padding: 17px;
+      background: var(--grad-main);
+      color: white; border: none; border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; transition: all .3s;
+      box-shadow: var(--shadow-md);
+      margin-top: 8px;
+    }
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+    }
+    .btn-submit.success {
+      background: linear-gradient(135deg, #2d7a4f, #1a5c39);
+    }
+    .form-note {
+      font-size: 12px; color: var(--text-soft);
+      text-align: center; margin-top: 14px; line-height: 1.6;
+    }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--navy-deep);
+      padding: 72px 80px 36px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 3fr;
+      gap: 80px; padding-bottom: 56px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      margin-bottom: 40px;
+    }
+    .footer-brand {}
+    .footer-logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 600;
+      background: var(--grad-main);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      letter-spacing: 1px; margin-bottom: 6px;
+    }
+    .footer-logo-sub {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,.3); font-weight: 500; margin-bottom: 24px;
+    }
+    .footer-tagline {
+      font-size: 14px; color: rgba(255,255,255,.4); line-height: 1.7;
+      max-width: 280px;
+    }
+    .footer-gold-bar {
+      width: 32px; height: 2px;
+      background: var(--gold-line); opacity: .5;
+      margin: 20px 0;
+    }
+
+    .footer-links {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+    }
+    .footer-col h5 {
+      font-size: 10px; font-weight: 600; letter-spacing: 3px;
+      text-transform: uppercase; color: rgba(255,255,255,.35);
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      font-size: 14px; color: rgba(255,255,255,.5);
+      text-decoration: none; transition: color .3s;
+    }
+    .footer-col ul li a:hover { color: rgba(255,255,255,.85); }
+
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom span {
+      font-size: 12px; color: rgba(255,255,255,.25); letter-spacing: .5px;
+    }
+
+    /* ── WHATSAPP FLOAT ── */
+    .whatsapp-float {
+      position: fixed; bottom: 32px; right: 32px; z-index: 300;
+      width: 56px; height: 56px;
+      background: #25d366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(37,211,102,.4);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 32px rgba(37,211,102,.5);
+    }
+    .whatsapp-float::before {
+      content: 'Fale conosco';
+      position: absolute; right: 68px;
+      background: var(--navy-deep); color: white;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
+      padding: 8px 14px; border-radius: 6px; white-space: nowrap;
+      opacity: 0; transform: translateX(8px);
+      transition: all .3s; pointer-events: none;
+    }
+    .whatsapp-float:hover::before { opacity: 1; transform: translateX(0); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 1024px) {
+      nav, #lazer, #depoimentos, #numeros, #localizacao, #plantas { padding-left: 30px; padding-right: 30px; }
+      nav.scrolled { padding-left: 30px; padding-right: 30px; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 30px 80px; }
+      .hero-stats { right: 30px; bottom: 80px; gap: 0; }
+      .stat { padding: 20px 24px; }
+      .brand-strip { padding: 20px 30px; gap: 32px; flex-wrap: wrap; justify-content: center; }
+      #sobre { grid-template-columns: 1fr; }
+      .sobre-image-wrap { min-height: 400px; }
+      .sobre-image-wrap::after { background: linear-gradient(to top, var(--white) 0%, transparent 50%); }
+      .sobre-text { padding: 60px 30px; }
+      #localizacao { padding: 80px 30px; }
+      .localizacao-header { grid-template-columns: 1fr; gap: 24px; }
+      .loc-grid { grid-template-columns: 1fr; }
+      .amenities-grid { grid-template-columns: 1fr 1fr; }
+      .plantas-grid { grid-template-columns: 1fr; }
+      .numeros-inner { grid-template-columns: 1fr; gap: 48px; }
+      .numeros-grid { grid-template-columns: 1fr 1fr; }
+      #tecnologia { grid-template-columns: 1fr; }
+      .tech-image-wrap { min-height: 300px; }
+      .tech-image-wrap::after { background: linear-gradient(to top, var(--white), transparent 50%); }
+      .tech-content { padding: 60px 30px; }
+      .depo-grid { grid-template-columns: 1fr; }
+      #contato { grid-template-columns: 1fr; }
+      .contato-left, .contato-right { padding: 72px 30px; }
+      footer { padding: 56px 30px 28px; }
+      .footer-top { grid-template-columns: 1fr; gap: 48px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .lazer-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <div class="nav-logo-name">The Park View</div>
+    <div class="nav-logo-sub">Indaiatuba · Alto Padrão</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#sobre">O Condomínio</a></li>
+    <li><a href="#localizacao">Localização</a></li>
+    <li><a href="#lazer">Lazer</a></li>
+    <li><a href="#plantas">Plantas</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.querySelector('#contato').scrollIntoView({behavior:'smooth'})">Agende uma Visita</button>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Lançamento Exclusivo · Vila Almeida
+    </div>
+    <h1 class="hero-title">The <em>Park</em><br>View</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-desc">
+      Um condomínio de alto padrão ao lado do Parque Ecológico de Indaiatuba.
+      Onde a natureza, o conforto e a exclusividade se encontram para
+      transformar a forma como você vive.
+    </p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.querySelector('#contato').scrollIntoView({behavior:'smooth'})">
+        Conheça o Empreendimento
+      </button>
+      <button class="btn-ghost" onclick="document.querySelector('#plantas').scrollIntoView({behavior:'smooth'})">
+        Ver Plantas
+      </button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num" id="s1">3</span>
+      <div class="stat-label">Torres</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="s2">19</span>
+      <div class="stat-label">Andares</div>
+    </div>
+    <div class="stat">
+      <span class="stat-num">190<sup>m²</sup></span>
+      <div class="stat-label">Até</div>
+    </div>
+  </div>
+  <div class="hero-scroll" onclick="document.querySelector('#sobre').scrollIntoView({behavior:'smooth'})">
+    <span>Descobrir</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══ BRAND STRIP ═══ -->
+<div class="brand-strip">
+  <div class="strip-item">
+    <div class="strip-item-icon">🌿</div>
+    <span>Parque Ecológico</span>
+  </div>
+  <div class="strip-dot"></div>
+  <div class="strip-item">
+    <div class="strip-item-icon">🏆</div>
+    <span>Alto Padrão</span>
+  </div>
+  <div class="strip-dot"></div>
+  <div class="strip-item">
+    <div class="strip-item-icon">🔒</div>
+    <span>Segurança 24h</span>
+  </div>
+  <div class="strip-dot"></div>
+  <div class="strip-item">
+    <div class="strip-item-icon">⚡</div>
+    <span>Automação Residencial</span>
+  </div>
+  <div class="strip-dot"></div>
+  <div class="strip-item">
+    <div class="strip-item-icon">📍</div>
+    <span>Vila Almeida · Indaiatuba</span>
+  </div>
+</div>
+
+<!-- ═══ SOBRE ═══ -->
+<section id="sobre">
+  <div class="sobre-image-wrap reveal-left">
+    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&q=85" alt="Fachada The Park View" />
+    <div class="sobre-badge">
+      <div class="sobre-badge-num">2025</div>
+      <div class="sobre-badge-label">Lançamento</div>
+    </div>
+  </div>
+  <div class="sobre-text reveal-right">
+    <div class="eyebrow">Sobre o Empreendimento</div>
+    <h2 class="section-title">Uma nova <em>referência</em><br>em bem viver</h2>
+    <p>
+      O The Park View nasce com uma proposta clara: elevar o padrão de morar
+      em Indaiatuba. Inserido na Vila Almeida, ao lado do eixo de lazer mais
+      valorizado da cidade, o condomínio une arquitetura contemporânea,
+      estrutura de clube e a tranquilidade de viver próximo ao verde do
+      Parque Ecológico.
+    </p>
+    <div class="sobre-pillars">
+      <div class="pillar">
+        <span class="pillar-icon">🏛</span>
+        <div class="pillar-title">Arquitetura</div>
+        <div class="pillar-text">Projeto contemporâneo com materiais nobres e acabamento premium em cada detalhe.</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">🔑</span>
+        <div class="pillar-title">Exclusividade</div>
+        <div class="pillar-text">Baixa densidade por andar, garantindo privacidade e um estilo de vida reservado.</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">🌳</span>
+        <div class="pillar-title">Natureza</div>
+        <div class="pillar-text">Vista privilegiada e integração paisagística com o entorno do Parque Ecológico.</div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">📈</span>
+        <div class="pillar-title">Investimento</div>
+        <div class="pillar-text">Endereço nobre com histórico de valorização consistente em Indaiatuba.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOCALIZAÇÃO ═══ -->
+<section id="localizacao">
+  <div class="localizacao-inner">
+    <div class="localizacao-header reveal">
+      <div>
+        <div class="eyebrow">Localização Privilegiada</div>
+        <h2 class="section-title">Viva ao lado de um dos<br><em>cartões-postais</em> de Indaiatuba</h2>
+      </div>
+      <p class="lead">
+        Conectado ao lazer, à mobilidade e à vida urbana de Indaiatuba.
+        Uma localização que valoriza seu tempo, sua rotina e seu patrimônio.
+      </p>
+    </div>
+    <div class="loc-grid reveal">
+      <div class="loc-card">
+        <div class="loc-icon-wrap">🌿</div>
+        <h3>Parque Ecológico</h3>
+        <p>A poucos metros do maior parque urbano de Indaiatuba, com trilhas, lagos e área verde preservada.</p>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon-wrap">🏙️</div>
+        <h3>Centro da Cidade</h3>
+        <p>Acesso imediato ao centro, com comércio sofisticado, serviços e toda a infraestrutura urbana.</p>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon-wrap">🚗</div>
+        <h3>Mobilidade Estratégica</h3>
+        <p>Conectividade com as principais vias da região metropolitana de Campinas.</p>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon-wrap">🍽️</div>
+        <h3>Gastronomia & Cultura</h3>
+        <p>Restaurantes, cafés e espaços culturais a curta distância compondo a vida urbana completa.</p>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon-wrap">🏫</div>
+        <h3>Educação de Qualidade</h3>
+        <p>Próximo às melhores escolas e universidades da região, ideal para famílias exigentes.</p>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon-wrap">📊</div>
+        <h3>Valorização Imobiliária</h3>
+        <p>Um dos endereços de maior apreciação histórica em Indaiatuba, garantindo retorno sólido.</p>
+      </div>
+    </div>
+    <div class="reveal" style="text-align:center">
+      <div class="loc-address-bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <p>Rua Araguaia, 208 &nbsp;·&nbsp; <span>Vila Almeida</span> &nbsp;·&nbsp; Indaiatuba – SP</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ NÚMEROS ═══ -->
+<section id="numeros">
+  <div class="numeros-inner">
+    <div class="reveal">
+      <div class="eyebrow">O Empreendimento em Números</div>
+      <h2 class="section-title">Escala que<br>inspira <em>confiança</em></h2>
+      <p>Cada detalhe foi concebido para oferecer a melhor experiência de moradia da cidade.</p>
+    </div>
+    <div class="numeros-grid reveal">
+      <div class="numero-item">
+        <span class="numero-val" data-target="3">3</span>
+        <div class="numero-label">Torres residenciais</div>
+      </div>
+      <div class="numero-item">
+        <span class="numero-val" data-target="19">19</span>
+        <div class="numero-label">Pavimentos por torre</div>
+      </div>
+      <div class="numero-item">
+        <span class="numero-val">190<sup>m²</sup></span>
+        <div class="numero-label">Maior tipologia disponível</div>
+      </div>
+      <div class="numero-item">
+        <span class="numero-val">16+</span>
+        <div class="numero-label">Itens de lazer e convivência</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LAZER ═══ -->
+<section id="lazer">
+  <div class="lazer-inner">
+    <div class="lazer-header reveal">
+      <div>
+        <div class="eyebrow">Estrutura de Clube</div>
+        <h2 class="section-title">Lazer <em>completo</em><br>sem sair de casa</h2>
+      </div>
+      <div class="lazer-tabs">
+        <button class="lazer-tab active" onclick="filterAmenities('all', this)">Todos</button>
+        <button class="lazer-tab" onclick="filterAmenities('bem-estar', this)">Bem-estar</button>
+        <button class="lazer-tab" onclick="filterAmenities('familia', this)">Família</button>
+        <button class="lazer-tab" onclick="filterAmenities('social', this)">Social</button>
+      </div>
+    </div>
+    <div class="amenities-grid reveal" id="amenities-grid">
+      <div class="amenity" data-cat="bem-estar">
+        <div class="amenity-icon-wrap">🏊</div>
+        <div><h4>Piscina Adulto</h4><p>Deck amplo com paisagismo integrado</p></div>
+      </div>
+      <div class="amenity" data-cat="familia">
+        <div class="amenity-icon-wrap">🐣</div>
+        <div><h4>Piscina Infantil</h4><p>Espaço lúdico e seguro para crianças</p></div>
+      </div>
+      <div class="amenity" data-cat="bem-estar">
+        <div class="amenity-icon-wrap">💪</div>
+        <div><h4>Academia</h4><p>Equipamentos premium com vista privilegiada</p></div>
+      </div>
+      <div class="amenity" data-cat="social">
+        <div class="amenity-icon-wrap">🎬</div>
+        <div><h4>Cinema</h4><p>Experiência audiovisual completa em família</p></div>
+      </div>
+      <div class="amenity" data-cat="familia">
+        <div class="amenity-icon-wrap">🧸</div>
+        <div><h4>Brinquedoteca</h4><p>Espaço criativo e educativo para as crianças</p></div>
+      </div>
+      <div class="amenity" data-cat="familia">
+        <div class="amenity-icon-wrap">🛝</div>
+        <div><h4>Playground</h4><p>Equipamentos modernos ao ar livre</p></div>
+      </div>
+      <div class="amenity" data-cat="bem-estar">
+        <div class="amenity-icon-wrap">🏐</div>
+        <div><h4>Quadras Esportivas</h4><p>Poliesportiva e quadra de areia</p></div>
+      </div>
+      <div class="amenity" data-cat="social">
+        <div class="amenity-icon-wrap">🥂</div>
+        <div><h4>Salão de Festas</h4><p>Espaço elegante para celebrações</p></div>
+      </div>
+      <div class="amenity" data-cat="social">
+        <div class="amenity-icon-wrap">🎱</div>
+        <div><h4>Salão de Jogos</h4><p>Entretenimento para todas as idades</p></div>
+      </div>
+      <div class="amenity" data-cat="social">
+        <div class="amenity-icon-wrap">🍖</div>
+        <div><h4>Espaço Gourmet</h4><p>Cozinha equipada e área de churrasco</p></div>
+      </div>
+      <div class="amenity" data-cat="familia">
+        <div class="amenity-icon-wrap">🐾</div>
+        <div><h4>Dog Park</h4><p>Área exclusiva e segura para seu pet</p></div>
+      </div>
+      <div class="amenity" data-cat="social">
+        <div class="amenity-icon-wrap">💼</div>
+        <div><h4>Coworking</h4><p>Espaço de trabalho moderno e equipado</p></div>
+      </div>
+      <div class="amenity" data-cat="social">
+        <div class="amenity-icon-wrap">🛒</div>
+        <div><h4>Mini Market</h4><p>Conveniência sem sair do condomínio</p></div>
+      </div>
+      <div class="amenity" data-cat="bem-estar">
+        <div class="amenity-icon-wrap">🧖</div>
+        <div><h4>Espaço Wellness</h4><p>Relaxamento e bem-estar para os moradores</p></div>
+      </div>
+      <div class="amenity" data-cat="social">
+        <div class="amenity-icon-wrap">🌳</div>
+        <div><h4>Jardins Paisagísticos</h4><p>Áreas verdes para convivência e contemplação</p></div>
+      </div>
+      <div class="amenity" data-cat="familia">
+        <div class="amenity-icon-wrap">📚</div>
+        <div><h4>Espaço de Leitura</h4><p>Biblioteca e lounge para momentos de paz</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PLANTAS ═══ -->
+<section id="plantas">
+  <div class="plantas-inner">
+    <div class="plantas-header reveal">
+      <div class="eyebrow">Tipologias</div>
+      <h2 class="section-title">Plantas <em>amplas</em> e inteligentes</h2>
+      <p class="plantas-lead">Ambientes pensados para convivência, privacidade e um padrão de vida superior. Escolha a tipologia que combina com o seu estilo.</p>
+    </div>
+    <div class="plantas-grid reveal">
+
+      <div class="planta-card">
+        <div class="planta-img-wrap">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80" alt="Tipologia A" />
+          <div class="planta-img-overlay"></div>
+        </div>
+        <div class="planta-info">
+          <div class="planta-tag">Tipologia A</div>
+          <div class="planta-name">92 m²</div>
+          <div class="planta-sub">3 dormitórios · 1 suíte</div>
+          <div class="planta-divider"></div>
+          <div class="planta-details">
+            <div class="planta-detail">
+              <span class="planta-detail-label">Dormitórios</span>
+              <span class="planta-detail-val">3</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Suítes</span>
+              <span class="planta-detail-val">1</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Vagas de Garagem</span>
+              <span class="planta-detail-val">2</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Varanda</span>
+              <span class="planta-detail-val">Sim</span>
+            </div>
+          </div>
+          <button class="planta-cta" onclick="document.querySelector('#contato').scrollIntoView({behavior:'smooth'})">Solicitar Informações</button>
+        </div>
+      </div>
+
+      <div class="planta-card destaque">
+        <div class="planta-destaque-badge">Mais Procurado</div>
+        <div class="planta-img-wrap">
+          <img src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=600&q=80" alt="Tipologia B" />
+          <div class="planta-img-overlay"></div>
+        </div>
+        <div class="planta-info">
+          <div class="planta-tag">Tipologia B</div>
+          <div class="planta-name">140 m²</div>
+          <div class="planta-sub">3 suítes · varanda gourmet</div>
+          <div class="planta-divider"></div>
+          <div class="planta-details">
+            <div class="planta-detail">
+              <span class="planta-detail-label">Suítes</span>
+              <span class="planta-detail-val">3</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Varanda Gourmet</span>
+              <span class="planta-detail-val">Inclusa</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Vagas de Garagem</span>
+              <span class="planta-detail-val">2</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Área total</span>
+              <span class="planta-detail-val">140 m²</span>
+            </div>
+          </div>
+          <button class="planta-cta" onclick="document.querySelector('#contato').scrollIntoView({behavior:'smooth'})">Solicitar Informações</button>
+        </div>
+      </div>
+
+      <div class="planta-card">
+        <div class="planta-img-wrap">
+          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80" alt="Cobertura Duplex" />
+          <div class="planta-img-overlay"></div>
+        </div>
+        <div class="planta-info">
+          <div class="planta-tag">Cobertura Duplex</div>
+          <div class="planta-name">190+ m²</div>
+          <div class="planta-sub">4 suítes · terraço privativo</div>
+          <div class="planta-divider"></div>
+          <div class="planta-details">
+            <div class="planta-detail">
+              <span class="planta-detail-label">Suítes</span>
+              <span class="planta-detail-val">4</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Terraço Privativo</span>
+              <span class="planta-detail-val">Incluso</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Vagas de Garagem</span>
+              <span class="planta-detail-val">3</span>
+            </div>
+            <div class="planta-detail">
+              <span class="planta-detail-label">Pavimentos</span>
+              <span class="planta-detail-val">2 (duplex)</span>
+            </div>
+          </div>
+          <button class="planta-cta" onclick="document.querySelector('#contato').scrollIntoView({behavior:'smooth'})">Solicitar Informações</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TECNOLOGIA ═══ -->
+<section id="tecnologia">
+  <div class="tech-image-wrap reveal-left">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85" alt="Tecnologia e automação The Park View" />
+  </div>
+  <div class="tech-content reveal-right">
+    <div class="eyebrow">Tecnologia & Segurança</div>
+    <h2 class="section-title">Tecnologia que<br><em>simplifica</em> a rotina</h2>
+    <p>Automação, controle de acesso e infraestrutura pensada para mais conforto, praticidade e segurança no dia a dia.</p>
+    <div class="tech-items">
+      <div class="tech-item">
+        <div class="tech-num">01</div>
+        <div class="tech-item-body">
+          <h4>Automação Residencial</h4>
+          <p>Controle de iluminação, climatização e segurança pelo seu smartphone, de onde você estiver.</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-num">02</div>
+        <div class="tech-item-body">
+          <h4>Acesso Inteligente</h4>
+          <p>Tag eletrônica, reconhecimento facial e controle de acesso para moradores e visitantes com total segurança.</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-num">03</div>
+        <div class="tech-item-body">
+          <h4>Segurança 24h</h4>
+          <p>Portaria monitorada, circuito completo de câmeras HD e equipe de segurança dedicada ao seu tranquilidade.</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-num">04</div>
+        <div class="tech-item-body">
+          <h4>Infraestrutura Inteligente</h4>
+          <p>Fibra óptica, pontos de recarga para veículos elétricos e sistema de energia solar fotovoltaica.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEPOIMENTOS ═══ -->
+<section id="depoimentos">
+  <div style="max-width:1260px;margin:0 auto">
+    <div class="reveal">
+      <div class="eyebrow">O Que Dizem</div>
+      <h2 class="section-title">A experiência de <em>quem escolheu</em><br>morar bem</h2>
+    </div>
+    <div class="depo-grid reveal">
+      <div class="depo-card">
+        <span class="depo-quote-mark">"</span>
+        <div class="depo-stars">★★★★★</div>
+        <p class="depo-text">Condomínio de alto padrão muito bem localizado, próximo ao centro da cidade. Superou todas as minhas expectativas.</p>
+        <div class="depo-rule"></div>
+        <div class="depo-name">Morador · Vila Almeida</div>
+      </div>
+      <div class="depo-card">
+        <span class="depo-quote-mark">"</span>
+        <div class="depo-stars">★★★★★</div>
+        <p class="depo-text">Muito bonito, bem decorado, com bons espaços de lazer e ar livre. Uma escolha que mudou a qualidade de vida da minha família.</p>
+        <div class="depo-rule"></div>
+        <div class="depo-name">Moradora · The Park View</div>
+      </div>
+      <div class="depo-card">
+        <span class="depo-quote-mark">"</span>
+        <div class="depo-stars">★★★★★</div>
+        <p class="depo-text">Edifício residencial bem planejado e aconchegante no coração da cidade. A melhor decisão de investimento que já tomei.</p>
+        <div class="depo-rule"></div>
+        <div class="depo-name">Morador · The Park View</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTATO ═══ -->
+<section id="contato">
+  <div class="contato-left reveal-left">
+    <div class="eyebrow">Entre em Contato</div>
+    <h2 class="section-title">Dê o primeiro passo<br>para um novo<br><em>estilo de vida</em></h2>
+    <p>Nossa equipe está pronta para apresentar todos os detalhes do The Park View. Agende uma visita e descubra por que este é o endereço mais desejado de Indaiatuba.</p>
+    <div class="contato-channels">
+      <div class="channel">
+        <div class="channel-icon-wrap">📱</div>
+        <div class="channel-info">
+          <div class="channel-label">WhatsApp</div>
+          <div class="channel-value">(19) 99999-0000</div>
+        </div>
+      </div>
+      <div class="channel">
+        <div class="channel-icon-wrap">📧</div>
+        <div class="channel-info">
+          <div class="channel-label">E-mail</div>
+          <div class="channel-value">contato@theparkview.com.br</div>
+        </div>
+      </div>
+      <div class="channel">
+        <div class="channel-icon-wrap">📍</div>
+        <div class="channel-info">
+          <div class="channel-label">Endereço</div>
+          <div class="channel-value">Rua Araguaia, 208 · Vila Almeida · Indaiatuba</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contato-right reveal-right">
+    <h3>Solicitar Informações</h3>
+    <form onsubmit="return handleForm(event)">
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" placeholder="Seu nome completo" required />
+        </div>
+        <div class="form-group">
+          <label>Telefone</label>
+          <input type="tel" placeholder="(00) 00000-0000" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" placeholder="seu@email.com.br" required />
+      </div>
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Interesse</label>
+          <select>
+            <option>Compra – Uso Próprio</option>
+            <option>Compra – Investimento</option>
+            <option>Informações Gerais</option>
+            <option>Agendar Visita</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipologia</label>
+          <select>
+            <option>Tipologia A – 92 m²</option>
+            <option>Tipologia B – 140 m²</option>
+            <option>Cobertura Duplex – 190+ m²</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Mensagem (opcional)</label>
+        <textarea placeholder="Deixe sua mensagem ou dúvida..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit" id="submit-btn">
+        Solicitar Contato
+      </button>
+      <p class="form-note">🔒 Seus dados são tratados com total sigilo. Sem spam.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo-name">The Park View</div>
+      <div class="footer-logo-sub">Indaiatuba · Alto Padrão · Vila Almeida</div>
+      <div class="footer-gold-bar"></div>
+      <p class="footer-tagline">Um condomínio pensado para quem valoriza conforto, segurança e uma experiência de moradia completa.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h5>Empreendimento</h5>
+        <ul>
+          <li><a href="#sobre">O Condomínio</a></li>
+          <li><a href="#localizacao">Localização</a></li>
+          <li><a href="#lazer">Lazer & Comodidades</a></li>
+          <li><a href="#plantas">Plantas & Tipologias</a></li>
+          <li><a href="#tecnologia">Tecnologia</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Informações</h5>
+        <ul>
+          <li><a href="#contato">Vendas</a></li>
+          <li><a href="#contato">Financiamento</a></li>
+          <li><a href="#contato">Agende uma Visita</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Siga-nos</h5>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 The Park View · Rua Araguaia, 208, Vila Almeida, Indaiatuba – SP</span>
+    <span>CRECI registrado · Imagens meramente ilustrativas</span>
+  </div>
+</footer>
+
+<!-- WHATSAPP -->
+<div class="whatsapp-float" title="Fale conosco pelo WhatsApp">💬</div>
+
+<script>
+  /* ── Navbar scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ── Nav logo color on scroll ── */
+  const logoName = document.querySelector('.nav-logo-name');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      logoName.style.cssText = '';
+    } else {
+      logoName.style.cssText = 'background:none;-webkit-text-fill-color:white;color:white';
+    }
+  }, { passive: true });
+  // init
+  logoName.style.cssText = 'background:none;-webkit-text-fill-color:white;color:white';
+
+  /* ── Scroll reveal ── */
+  const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('visible');
+
+      // Stagger children cards
+      const cards = e.target.querySelectorAll(
+        '.amenity, .loc-card, .planta-card, .depo-card, .pillar, .numero-item, .tech-item, .strip-item'
+      );
+      cards.forEach((c, i) => {
+        c.style.opacity = '0';
+        c.style.transform = 'translateY(24px)';
+        c.style.transition = `opacity .6s ease ${i*70}ms, transform .6s ease ${i*70}ms`;
+        setTimeout(() => {
+          c.style.opacity = '1';
+          c.style.transform = 'translateY(0)';
+        }, i * 70 + 150);
+      });
+      revealObs.unobserve(e.target);
+    });
+  }, { threshold: 0.08 });
+  allReveals.forEach(el => revealObs.observe(el));
+
+  /* ── Amenities filter ── */
+  function filterAmenities(cat, btn) {
+    document.querySelectorAll('.lazer-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.amenity').forEach((a, i) => {
+      const show = cat === 'all' || a.dataset.cat === cat;
+      a.style.transition = `all .3s ease ${i * 30}ms`;
+      if (show) {
+        a.style.display = 'flex';
+        setTimeout(() => { a.style.opacity='1'; a.style.transform='translateY(0)'; }, 10);
+      } else {
+        a.style.opacity = '0';
+        a.style.transform = 'scale(.95)';
+        setTimeout(() => { a.style.display = 'none'; }, 300);
+      }
+    });
+  }
+
+  /* ── Form submit ── */
+  function handleForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = '✓ Mensagem Enviada! Entraremos em contato em breve.';
+    btn.classList.add('success');
+    btn.disabled = true;
+    return false;
+  }
+</script>
+</body>
+</html>
