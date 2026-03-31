@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jardim Vila Paradiso — Condomínio em Indaiatuba</title>
+  <meta name="description" content="Jardim Vila Paradiso em Indaiatuba: natureza refinada, urbanismo elegante e arquitetura moderna." />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #F7F4EE; color: #1A1A18; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button, input, select, textarea { font: inherit; }
+
+    :root {
+      --cream: #F7F4EE;
+      --cream2: #EDE9DF;
+      --ink: #1A1A18;
+      --ink2: #3A3A35;
+      --muted: #7A7A6E;
+      --forest: #0D2318;
+      --forest2: #152E22;
+      --forest3: #1C3D2D;
+      --gold: #B89A55;
+      --gold2: #D4B87A;
+      --gold3: #EDD8A0;
+      --line: rgba(26,26,24,.10);
+      --line-light: rgba(26,26,24,.06);
+      --shadow-sm: 0 4px 20px rgba(13,35,24,.08);
+      --shadow: 0 16px 48px rgba(13,35,24,.12);
+      --shadow-lg: 0 32px 80px rgba(13,35,24,.16);
+      --r: 16px;
+      --r2: 24px;
+      --container: 1200px;
+    }
+
+    .container { width: min(var(--container), calc(100% - 56px)); margin-inline: auto; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0;
+      transition: background .3s ease, box-shadow .3s ease;
+    }
+    nav.scrolled {
+      background: rgba(247,244,238,.92);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 rgba(26,26,24,.08);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0; gap: 24px;
+    }
+    .brand {
+      display: flex; flex-direction: column; gap: 1px;
+    }
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 500; letter-spacing: .08em;
+      color: var(--forest);
+      text-transform: uppercase;
+    }
+    nav.scrolled .brand-name { color: var(--forest); }
+    nav:not(.scrolled) .brand-name { color: #fff; }
+    .brand-loc {
+      font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold2); font-weight: 400;
+      opacity: 0; height: 0; overflow: hidden; transition: opacity .3s;
+    }
+    nav.scrolled .brand-loc { opacity: 1; height: auto; }
+
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: .82rem; letter-spacing: .06em; font-weight: 400;
+      transition: opacity .2s;
+    }
+    nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,.80); }
+    nav.scrolled .nav-links a { color: var(--ink2); }
+    .nav-links a:hover { opacity: 1 !important; }
+    nav:not(.scrolled) .nav-links a:hover { color: #fff; }
+    nav.scrolled .nav-links a:hover { color: var(--forest); }
+
+    .btn-nav {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 999px;
+      font-size: .80rem; font-weight: 500; letter-spacing: .08em;
+      transition: all .2s ease;
+    }
+    nav:not(.scrolled) .btn-nav {
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.30); color: #fff;
+    }
+    nav:not(.scrolled) .btn-nav:hover {
+      background: rgba(255,255,255,.25); border-color: rgba(255,255,255,.50);
+    }
+    nav.scrolled .btn-nav {
+      background: var(--forest); color: #fff; border: 1px solid transparent;
+    }
+    nav.scrolled .btn-nav:hover { background: var(--forest2); }
+
+    .burger { display: none; background: transparent; border: 0; padding: 8px; cursor: pointer; }
+    .burger span { display: block; width: 20px; height: 1.5px; border-radius: 2px; }
+    .burger span + span { margin-top: 5px; }
+    nav:not(.scrolled) .burger span { background: #fff; }
+    nav.scrolled .burger span { background: var(--forest); }
+
+    /* ─── MOBILE MENU ─── */
+    .mob-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: var(--forest);
+    }
+    .mob-overlay.open { display: flex; flex-direction: column; }
+    .mob-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 28px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .mob-header .brand-name { color: #fff; }
+    .mob-close {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.14);
+      color: #fff; font-size: 1rem; cursor: pointer;
+    }
+    .mob-nav { display: flex; flex-direction: column; padding: 28px; gap: 8px; }
+    .mob-nav a {
+      padding: 14px 18px; border-radius: 14px;
+      font-size: 1rem; color: rgba(255,255,255,.85); font-weight: 400;
+      border: 1px solid rgba(255,255,255,.08);
+      transition: background .2s;
+    }
+    .mob-nav a:hover { background: rgba(255,255,255,.06); }
+    .mob-nav .cta {
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--forest); border-color: transparent; font-weight: 500;
+      text-align: center;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; min-height: 100svh;
+      display: flex; flex-direction: column;
+      background: var(--forest);
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=2000&q=90&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      transition: transform 6s ease-out;
+    }
+    .hero-bg.loaded { transform: scale(1.04); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(13,35,24,.55) 0%, rgba(13,35,24,.30) 45%, rgba(13,35,24,.75) 100%),
+        linear-gradient(90deg, rgba(13,35,24,.40) 0%, transparent 60%);
+    }
+    .hero-body {
+      position: relative; z-index: 2;
+      flex: 1; display: flex; align-items: flex-end;
+      padding-bottom: 80px;
+    }
+    .hero-content {
+      display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: end;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--gold2);
+    }
+    .hero-eyebrow span {
+      font-size: .72rem; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--gold2); font-weight: 400;
+    }
+    .hero-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5.5vw, 5.2rem);
+      line-height: 1.04; font-weight: 400; color: #fff;
+      letter-spacing: -.01em;
+    }
+    .hero-h1 em { font-style: italic; color: var(--gold3); }
+    .hero-sub {
+      margin-top: 20px;
+      font-size: 1rem; line-height: 1.80; color: rgba(255,255,255,.72);
+      max-width: 52ch; font-weight: 300;
+    }
+    .hero-ctas { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--forest); font-weight: 500; font-size: .88rem;
+      letter-spacing: .05em;
+      box-shadow: 0 12px 32px rgba(184,154,85,.28);
+      transition: all .2s ease;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 18px 40px rgba(184,154,85,.38); }
+    .btn-ghost-light {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 999px;
+      background: transparent; border: 1px solid rgba(255,255,255,.28);
+      color: rgba(255,255,255,.88); font-weight: 400; font-size: .88rem;
+      letter-spacing: .05em; transition: all .2s ease;
+    }
+    .btn-ghost-light:hover { border-color: rgba(255,255,255,.55); background: rgba(255,255,255,.06); }
+
+    .hero-stats {
+      background: rgba(247,244,238,.08);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--r2);
+      padding: 28px 24px;
+      display: flex; flex-direction: column; gap: 1px;
+    }
+    .hero-stat { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .hero-stat:last-child { border-bottom: 0; padding-bottom: 0; }
+    .hero-stat-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 400; color: #fff; line-height: 1;
+    }
+    .hero-stat-lbl {
+      font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.55); margin-top: 4px;
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,.45); font-size: .68rem; letter-spacing: .20em; text-transform: uppercase;
+      animation: scrollBob 2.4s ease-in-out infinite;
+    }
+    .hero-scroll::after {
+      content: ''; width: 1px; height: 36px; background: linear-gradient(180deg, rgba(255,255,255,.40), transparent);
+    }
+    @keyframes scrollBob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+    /* ─── REVEAL ─── */
+    .rv { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+    .rv.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: .10s; } .d2 { transition-delay: .20s; } .d3 { transition-delay: .32s; } .d4 { transition-delay: .44s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rv { opacity: 1; transform: none; transition: none; }
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 96px 0; }
+    .section-label {
+      display: flex; align-items: center; gap: 12px;
+      font-size: .70rem; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--gold); font-weight: 400; margin-bottom: 16px;
+    }
+    .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+    .h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      font-weight: 400; line-height: 1.12; color: var(--forest);
+      letter-spacing: -.01em;
+    }
+    .h2 em { font-style: italic; }
+    .h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem; font-weight: 500; line-height: 1.20; color: var(--forest);
+    }
+    .body-text { font-size: .96rem; line-height: 1.85; color: var(--ink2); font-weight: 300; }
+    .body-sm { font-size: .88rem; line-height: 1.78; color: var(--muted); font-weight: 300; }
+
+    /* ─── CONCEITO ─── */
+    #conceito { background: var(--cream); }
+    .conceito-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .conceito-media { position: relative; }
+    .conceito-img-wrap {
+      border-radius: var(--r2); overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 4/5;
+    }
+    .conceito-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease; }
+    .conceito-img-wrap:hover img { transform: scale(1.04); }
+    .conceito-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--forest);
+      border-radius: 20px; padding: 20px 22px;
+      display: flex; flex-direction: column; gap: 4px;
+      box-shadow: var(--shadow);
+    }
+    .conceito-badge-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 400; color: var(--gold3); line-height: 1;
+    }
+    .conceito-badge-lbl { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+    .conceito-copy { padding-left: 20px; }
+    .conceito-copy .h2 { margin-bottom: 20px; }
+    .conceito-copy .body-text { max-width: 50ch; }
+    .conceito-pillars { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; }
+    .pillar {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 16px 18px; border-radius: 14px;
+      border: 1px solid var(--line); background: #fff;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .pillar:hover { border-color: rgba(184,154,85,.30); box-shadow: var(--shadow-sm); }
+    .pillar-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      border-radius: 10px; background: rgba(184,154,85,.10);
+      border: 1px solid rgba(184,154,85,.20);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pillar-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .pillar-body h4 { font-size: .88rem; font-weight: 500; color: var(--forest); }
+    .pillar-body p { font-size: .82rem; color: var(--muted); margin-top: 2px; font-weight: 300; }
+
+    /* ─── DIFERENCIAIS ─── */
+    #diferenciais { background: var(--forest); position: relative; overflow: hidden; }
+    #diferenciais::before {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,154,85,.12), transparent 70%);
+      pointer-events: none;
+    }
+    .diferenciais-head { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; margin-bottom: 52px; }
+    .diferenciais-head .h2 { color: #fff; }
+    .diferenciais-head .h2 em { color: var(--gold3); }
+    .diferenciais-head .body-text { color: rgba(255,255,255,.62); }
+    #diferenciais .section-label { color: var(--gold2); }
+    #diferenciais .section-label::before { background: var(--gold2); }
+
+    .diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .diff-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      padding: 32px 28px; transition: background .3s ease;
+      position: relative; overflow: hidden;
+    }
+    .diff-card:hover { background: rgba(255,255,255,.07); }
+    .diff-card::after {
+      content: ''; position: absolute; bottom: 0; left: 28px; right: 28px;
+      height: 1px; background: linear-gradient(90deg, transparent, rgba(184,154,85,.30), transparent);
+    }
+    .diff-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .78rem; letter-spacing: .24em; color: var(--gold);
+      margin-bottom: 20px; display: block;
+    }
+    .diff-icon { width: 44px; height: 44px; margin-bottom: 16px; }
+    .diff-icon svg { width: 100%; height: 100%; stroke: rgba(255,255,255,.55); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+    .diff-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.30rem; font-weight: 400; color: #fff; margin-bottom: 10px; }
+    .diff-card p { font-size: .86rem; line-height: 1.78; color: rgba(255,255,255,.54); font-weight: 300; }
+
+    /* ─── GALERIA SLIDER ─── */
+    #galeria { background: var(--cream2); padding: 80px 0; }
+    .galeria-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px; }
+    .galeria-controls { display: flex; gap: 10px; }
+    .gal-btn {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: #fff; border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .2s;
+    }
+    .gal-btn:hover { background: var(--forest); border-color: var(--forest); }
+    .gal-btn:hover svg { stroke: #fff; }
+    .gal-btn svg { width: 18px; height: 18px; stroke: var(--ink2); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s; }
+
+    .gal-track-wrap { overflow: hidden; border-radius: var(--r2); }
+    .gal-track {
+      display: flex; gap: 16px;
+      transition: transform .6s cubic-bezier(.77,0,.175,1);
+    }
+    .gal-slide {
+      flex: 0 0 calc(50% - 8px); aspect-ratio: 16/10;
+      border-radius: 20px; overflow: hidden;
+      position: relative; border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+    }
+    .gal-slide img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .gal-slide:hover img { transform: scale(1.04); }
+    .gal-slide-cap {
+      position: absolute; left: 16px; right: 16px; bottom: 16px;
+      background: rgba(247,244,238,.88); backdrop-filter: blur(12px);
+      border: 1px solid rgba(26,26,24,.08); border-radius: 14px;
+      padding: 10px 14px;
+    }
+    .gal-slide-cap .section-label { margin-bottom: 2px; font-size: .62rem; }
+    .gal-slide-cap .section-label::before { width: 16px; }
+    .gal-slide-cap strong { font-size: .88rem; font-weight: 500; color: var(--forest); }
+    .gal-dots { display: flex; gap: 6px; margin-top: 20px; justify-content: center; }
+    .gal-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(13,35,24,.20); transition: all .3s; cursor: pointer; }
+    .gal-dot.active { width: 22px; border-radius: 3px; background: var(--forest); }
+
+    /* ─── CARD FORMULÁRIO ─── */
+    #contato { background: var(--cream); }
+    .contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .contato-copy .h2 { margin-bottom: 16px; }
+    .contato-copy .body-text { max-width: 46ch; }
+    .contato-features { margin-top: 36px; display: flex; flex-direction: column; gap: 16px; }
+    .cf-item { display: flex; align-items: center; gap: 14px; }
+    .cf-icon {
+      width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px;
+      background: rgba(184,154,85,.10); border: 1px solid rgba(184,154,85,.20);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cf-icon svg { width: 17px; height: 17px; stroke: var(--gold); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .cf-text { font-size: .90rem; color: var(--ink2); font-weight: 400; }
+
+    .form-card {
+      background: var(--forest);
+      border-radius: var(--r2);
+      padding: 36px 32px;
+      box-shadow: var(--shadow-lg);
+      position: relative; overflow: hidden;
+    }
+    .form-card::before {
+      content: ''; position: absolute; top: -100px; right: -100px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,154,85,.15), transparent 70%);
+      pointer-events: none;
+    }
+    .form-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem; font-weight: 400; color: #fff; margin-bottom: 6px;
+    }
+    .form-card-sub { font-size: .84rem; color: rgba(255,255,255,.55); margin-bottom: 24px; font-weight: 300; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .form-field { margin-bottom: 10px; }
+    .form-field label {
+      display: block; font-size: .70rem; letter-spacing: .20em; text-transform: uppercase;
+      color: rgba(255,255,255,.50); margin-bottom: 7px;
+    }
+    .form-field input, .form-field select, .form-field textarea {
+      width: 100%; padding: 12px 14px; border-radius: 12px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+      color: #fff; font-size: .88rem; outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+      border-color: rgba(184,154,85,.50); background: rgba(255,255,255,.10);
+    }
+    .form-field input::placeholder, .form-field textarea::placeholder { color: rgba(255,255,255,.30); }
+    .form-field select option { background: var(--forest); color: #fff; }
+    .form-field textarea { min-height: 90px; resize: none; }
+    .btn-form {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px 24px; border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--forest); font-weight: 500; font-size: .88rem;
+      letter-spacing: .06em; border: 0; cursor: pointer;
+      box-shadow: 0 12px 28px rgba(184,154,85,.25);
+      transition: all .2s ease; margin-top: 6px;
+    }
+    .btn-form:hover { transform: translateY(-1px); box-shadow: 0 18px 36px rgba(184,154,85,.35); }
+    .btn-form svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .form-note { font-size: .74rem; color: rgba(255,255,255,.38); margin-top: 10px; text-align: center; }
+    .form-toast {
+      display: none; margin-top: 12px; padding: 12px 14px; border-radius: 12px;
+      background: rgba(184,154,85,.15); border: 1px solid rgba(184,154,85,.30);
+      color: var(--gold3); font-size: .84rem;
+    }
+    .form-toast.show { display: block; }
+
+    /* ─── LOCALIZAÇÃO ─── */
+    #localizacao { background: var(--cream2); }
+    .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .loc-map {
+      border-radius: var(--r2); overflow: hidden;
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+      height: 420px;
+    }
+    .loc-map iframe { width: 100%; height: 100%; border: 0; filter: saturate(.7) contrast(1.05); }
+    .loc-copy .h2 { margin-bottom: 16px; }
+    .loc-copy .body-text { max-width: 46ch; }
+    .loc-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .loc-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 999px;
+      border: 1px solid var(--line); background: #fff;
+      font-size: .80rem; color: var(--ink2); font-weight: 400;
+    }
+    .loc-tag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .loc-cta { margin-top: 28px; }
+    .btn-dark {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 13px 26px; border-radius: 999px;
+      background: var(--forest); color: #fff; border: 0;
+      font-size: .86rem; font-weight: 400; letter-spacing: .05em;
+      transition: all .2s; cursor: pointer;
+    }
+    .btn-dark:hover { background: var(--forest2); transform: translateY(-1px); }
+
+    /* ─── FAQ ─── */
+    #faq { background: var(--cream); }
+    .faq-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; }
+    .faq-copy .h2 { margin-bottom: 16px; }
+    .faq-list { display: flex; flex-direction: column; gap: 8px; }
+    details.faqi {
+      border: 1px solid var(--line); border-radius: 14px;
+      background: #fff; overflow: hidden;
+    }
+    details.faqi summary {
+      cursor: pointer; list-style: none; padding: 16px 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      font-size: .90rem; font-weight: 500; color: var(--forest);
+    }
+    details.faqi summary::-webkit-details-marker { display: none; }
+    details.faqi summary i {
+      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      border: 1px solid var(--line); display: flex; align-items: center; justify-content: center;
+      color: var(--muted); transition: transform .2s, background .2s;
+      font-style: normal; font-size: 1.1rem; line-height: 1;
+    }
+    details.faqi[open] summary i { transform: rotate(45deg); background: rgba(184,154,85,.12); border-color: rgba(184,154,85,.25); color: var(--gold); }
+    details.faqi .ans { padding: 0 18px 16px; font-size: .88rem; line-height: 1.80; color: var(--muted); font-weight: 300; }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--forest); padding: 60px 0 36px; }
+    .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 44px; }
+    footer .brand-name { color: #fff; font-size: 1.2rem; margin-bottom: 14px; display: block; }
+    .footer-desc { font-size: .86rem; line-height: 1.78; color: rgba(255,255,255,.45); font-weight: 300; max-width: 38ch; }
+    footer h5 { font-size: .68rem; letter-spacing: .26em; text-transform: uppercase; color: var(--gold2); margin-bottom: 16px; font-weight: 400; }
+    footer ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    footer ul li a { font-size: .86rem; color: rgba(255,255,255,.50); font-weight: 300; transition: color .2s; }
+    footer ul li a:hover { color: rgba(255,255,255,.82); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      padding-top: 24px; border-top: 1px solid rgba(255,255,255,.08);
+      font-size: .78rem; color: rgba(255,255,255,.30);
+    }
+
+    /* ─── FLOAT ─── */
+    .float-btns { position: fixed; right: 20px; bottom: 20px; z-index: 88; display: flex; flex-direction: column; gap: 10px; }
+    .fab {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(247,244,238,.90); backdrop-filter: blur(12px);
+      border: 1px solid rgba(26,26,24,.10); box-shadow: var(--shadow);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .2s;
+    }
+    .fab:hover { transform: translateY(-1px); }
+    .fab svg { width: 17px; height: 17px; stroke: var(--forest); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .fab-top { opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .fab-top.show { opacity: 1; pointer-events: auto; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 980px) {
+      .hero-content { grid-template-columns: 1fr; }
+      .hero-stats { display: none; }
+      .conceito-grid, .contato-grid, .loc-grid, .faq-grid { grid-template-columns: 1fr; gap: 32px; }
+      .conceito-badge { right: 0; bottom: -16px; }
+      .diferenciais-head { grid-template-columns: 1fr; gap: 16px; }
+      .diff-grid { grid-template-columns: 1fr 1fr; }
+      .gal-slide { flex: 0 0 calc(80% - 8px); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .burger { display: block; }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(var(--container), calc(100% - 32px)); }
+      section { padding: 70px 0; }
+      .hero-h1 { font-size: 2.8rem; }
+      .diff-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .gal-slide { flex: 0 0 calc(92% - 8px); }
+      .footer-grid { grid-template-columns: 1fr; }
+      .conceito-copy { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="float-btns">
+    <a class="fab" href="#contato" aria-label="Agendar visita">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    </a>
+    <button class="fab fab-top" id="fabTop" type="button" aria-label="Voltar ao topo">
+      <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="#inicio" class="brand">
+        <span class="brand-name">Jardim Vila Paradiso</span>
+        <span class="brand-loc">Indaiatuba · SP</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#conceito">Conceito</a></li>
+        <li><a href="#diferenciais">Diferenciais</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#localizacao">Localização</a></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:12px">
+        <a class="btn-nav" href="#contato">Agendar visita</a>
+        <button class="burger" id="burger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mob-overlay" id="mobMenu">
+    <div class="mob-header">
+      <span class="brand-name">Jardim Vila Paradiso</span>
+      <button class="mob-close" id="mobClose">✕</button>
+    </div>
+    <nav class="mob-nav">
+      <a href="#conceito" data-close>Conceito</a>
+      <a href="#diferenciais" data-close>Diferenciais</a>
+      <a href="#galeria" data-close>Galeria</a>
+      <a href="#localizacao" data-close>Localização</a>
+      <a href="#contato" class="cta" data-close>Agendar visita</a>
+    </nav>
+  </div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="hero-bg" id="heroBg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-body">
+        <div class="container">
+          <div class="hero-content">
+            <div>
+              <div class="hero-eyebrow rv">
+                <span>Indaiatuba · São Paulo</span>
+              </div>
+              <h1 class="hero-h1 rv d1">
+                Natureza refinada.<br>
+                <em>Urbanismo elegante.</em><br>
+                Vida em equilíbrio.
+              </h1>
+              <p class="hero-sub rv d2">
+                No Jardim Vila Paradiso, cada detalhe foi pensado para elevar o cotidiano — do traçado das alamedas ao silêncio que só um condomínio de verdade oferece.
+              </p>
+              <div class="hero-ctas rv d3">
+                <a class="btn-primary" href="#contato">Agendar visita</a>
+                <a class="btn-ghost-light" href="#galeria">Ver galeria</a>
+              </div>
+            </div>
+            <div class="hero-stats rv d2">
+              <div class="hero-stat">
+                <div class="hero-stat-val">420 m²</div>
+                <div class="hero-stat-lbl">Lotes a partir de</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-val">24h</div>
+                <div class="hero-stat-lbl">Portaria e segurança</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-val">100%</div>
+                <div class="hero-stat-lbl">Fiação subterrânea</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll">Scroll</div>
+    </section>
+
+    <!-- CONCEITO -->
+    <section id="conceito">
+      <div class="container">
+        <div class="conceito-grid">
+          <div class="conceito-media rv">
+            <div class="conceito-img-wrap">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=85&auto=format&fit=crop" alt="Arquitetura residencial moderna" loading="lazy" />
+            </div>
+            <div class="conceito-badge">
+              <div class="conceito-badge-val">Alto padrão</div>
+              <div class="conceito-badge-lbl">reconhecido</div>
+            </div>
+          </div>
+          <div class="conceito-copy rv d1">
+            <div class="section-label">Conceito</div>
+            <h2 class="h2">Um endereço que<br><em>fala por si só.</em></h2>
+            <p class="body-text" style="margin-top:16px">
+              O Vila Paradiso foi projetado para quem valoriza o essencial: mais verde, mais silêncio, mais tempo. Um ambiente de rara elegância onde natureza e arquitetura contemporânea criam uma experiência única de morar.
+            </p>
+            <div class="conceito-pillars">
+              <div class="pillar">
+                <div class="pillar-icon">
+                  <svg viewBox="0 0 24 24"><path d="M12 22s-8-5-8-13a8 8 0 0116 0c0 8-8 13-8 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                </div>
+                <div class="pillar-body">
+                  <h4>Natureza preservada</h4>
+                  <p>Áreas verdes, lagos e alamedas arborizadas integradas ao cotidiano.</p>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-icon">
+                  <svg viewBox="0 0 24 24"><path d="M12 3l9 5v6c0 5.5-3.8 8.8-9 11-5.2-2.2-9-5.5-9-11V8z"/></svg>
+                </div>
+                <div class="pillar-body">
+                  <h4>Segurança discreta</h4>
+                  <p>Portaria 24h e controle de acesso integrados ao design do condomínio.</p>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-icon">
+                  <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 13h4"/></svg>
+                </div>
+                <div class="pillar-body">
+                  <h4>Urbanismo elegante</h4>
+                  <p>Fiação subterrânea, traçado limpo e estética que valoriza com o tempo.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIFERENCIAIS -->
+    <section id="diferenciais">
+      <div class="container">
+        <div class="diferenciais-head">
+          <div>
+            <div class="section-label rv">Diferenciais</div>
+            <h2 class="h2 rv d1">O alto padrão<br><em>que se percebe.</em></h2>
+          </div>
+          <p class="body-text rv d2" style="color:rgba(255,255,255,.62);max-width:42ch">
+            Cada detalhe foi planejado para compor uma experiência de morar excepcional — onde o luxo está na leveza e na consistência.
+          </p>
+        </div>
+        <div class="diff-grid rv d2">
+          <div class="diff-card">
+            <span class="diff-number">01</span>
+            <div class="diff-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
+            <h3>Lotes amplos</h3>
+            <p>A partir de 420 m², com espaço para jardim, piscina e privacidade real para a família.</p>
+          </div>
+          <div class="diff-card">
+            <span class="diff-number">02</span>
+            <div class="diff-icon"><svg viewBox="0 0 24 24"><path d="M12 3l9 5v6c0 5.5-3.8 8.8-9 11-5.2-2.2-9-5.5-9-11V8z"/></svg></div>
+            <h3>Segurança 24h</h3>
+            <p>Portaria permanente e controle de acesso para tranquilidade total em todos os momentos.</p>
+          </div>
+          <div class="diff-card">
+            <span class="diff-number">03</span>
+            <div class="diff-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 000 20M2 12h20"/></svg></div>
+            <h3>Fiação subterrânea</h3>
+            <p>Infraestrutura oculta que garante uma estética limpa e horizonte livre em todas as ruas.</p>
+          </div>
+          <div class="diff-card">
+            <span class="diff-number">04</span>
+            <div class="diff-icon"><svg viewBox="0 0 24 24"><path d="M7 17m-2 0a2 2 0 104 0 2 2 0 10-4 0M17 17m-2 0a2 2 0 104 0 2 2 0 10-4 0M5 17H3v-6l2-5h11l4 5v6h-2M5 17h12"/></svg></div>
+            <h3>Localização estratégica</h3>
+            <p>Acesso facilitado a rodovias, comércio e serviços — tranquilidade sem isolamento.</p>
+          </div>
+          <div class="diff-card">
+            <span class="diff-number">05</span>
+            <div class="diff-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+            <h3>Lazer completo</h3>
+            <p>Piscina, quadras, espaços de convivência e caminhos para uma rotina mais ativa.</p>
+          </div>
+          <div class="diff-card">
+            <span class="diff-number">06</span>
+            <div class="diff-icon"><svg viewBox="0 0 24 24"><path d="M12 22s-7-4.35-7-11a7 7 0 0114 0c0 6.65-7 11-7 11z"/><circle cx="12" cy="11" r="3"/></svg></div>
+            <h3>Áreas verdes e lagos</h3>
+            <p>Paisagismo de alto nível com lagos e jardins que criam cenários únicos ao longo das estações.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERIA -->
+    <section id="galeria">
+      <div class="container">
+        <div class="galeria-head">
+          <div>
+            <div class="section-label rv">Galeria</div>
+            <h2 class="h2 rv d1"><em>Imagens</em> que apresentam<br>o ambiente.</h2>
+          </div>
+          <div class="galeria-controls rv d2">
+            <button class="gal-btn" id="galPrev" aria-label="Anterior">
+              <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="gal-btn" id="galNext" aria-label="Próxima">
+              <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="gal-track-wrap rv d2">
+          <div class="gal-track" id="galTrack">
+            <div class="gal-slide">
+              <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=85&auto=format&fit=crop" alt="Arquitetura residencial" loading="lazy" />
+              <div class="gal-slide-cap">
+                <div class="section-label">Arquitetura</div>
+                <strong>Contemporânea e atemporal</strong>
+              </div>
+            </div>
+            <div class="gal-slide">
+              <img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?w=1200&q=85&auto=format&fit=crop" alt="Alamedas e paisagismo" loading="lazy" />
+              <div class="gal-slide-cap">
+                <div class="section-label">Urbanismo</div>
+                <strong>Alamedas planejadas e elegantes</strong>
+              </div>
+            </div>
+            <div class="gal-slide">
+              <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1200&q=85&auto=format&fit=crop" alt="Área de lazer" loading="lazy" />
+              <div class="gal-slide-cap">
+                <div class="section-label">Lazer</div>
+                <strong>Bem-estar todos os dias</strong>
+              </div>
+            </div>
+            <div class="gal-slide">
+              <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200&q=85&auto=format&fit=crop" alt="Natureza e verde" loading="lazy" />
+              <div class="gal-slide-cap">
+                <div class="section-label">Natureza</div>
+                <strong>Verde preservado e leveza</strong>
+              </div>
+            </div>
+            <div class="gal-slide">
+              <img src="https://images.unsplash.com/photo-1600047509782-20d39509f26d?w=1200&q=85&auto=format&fit=crop" alt="Paisagismo" loading="lazy" />
+              <div class="gal-slide-cap">
+                <div class="section-label">Paisagismo</div>
+                <strong>Cenários de estação em estação</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gal-dots rv d3" id="galDots"></div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato">
+      <div class="container">
+        <div class="contato-grid">
+          <div class="contato-copy rv">
+            <div class="section-label">Visita</div>
+            <h2 class="h2">Conheça o<br><em>Vila Paradiso</em><br>ao vivo.</h2>
+            <p class="body-text" style="margin-top:16px">
+              Uma visita guiada mostra o que nenhuma imagem consegue: o silêncio, a escala das alamedas, a qualidade do ar e a sensação de pertencer a um lugar excepcional.
+            </p>
+            <div class="contato-features">
+              <div class="cf-item">
+                <div class="cf-icon">
+                  <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+                </div>
+                <span class="cf-text">Apresentação personalizada conforme seu interesse</span>
+              </div>
+              <div class="cf-item">
+                <div class="cf-icon">
+                  <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+                </div>
+                <span class="cf-text">Atendimento ágil e sem compromisso</span>
+              </div>
+              <div class="cf-item">
+                <div class="cf-icon">
+                  <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+                </div>
+                <span class="cf-text">Material exclusivo com plantas e diferenciais</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-card rv d1">
+            <div class="form-card-title">Solicitar contato</div>
+            <div class="form-card-sub">Preencha e entraremos em contato em breve.</div>
+            <form id="leadForm" onsubmit="handleForm(event)" novalidate>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="fname">Nome</label>
+                  <input id="fname" name="name" type="text" placeholder="Seu nome" autocomplete="name" required />
+                </div>
+                <div class="form-field">
+                  <label for="femail">E-mail</label>
+                  <input id="femail" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="ftel">Telefone</label>
+                  <input id="ftel" name="tel" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" />
+                </div>
+                <div class="form-field">
+                  <label for="finterest">Interesse</label>
+                  <select id="finterest" name="interest">
+                    <option value="">Selecione</option>
+                    <option>Compra de lote</option>
+                    <option>Compra de casa</option>
+                    <option>Visita ao condomínio</option>
+                    <option>Informações gerais</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="fmsg">Mensagem</label>
+                <textarea id="fmsg" name="message" placeholder="Conte o que você procura..."></textarea>
+              </div>
+              <button type="submit" class="btn-form" id="formBtn">
+                Solicitar contato
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+              <p class="form-note">Seus dados são tratados com confidencialidade.</p>
+              <div class="form-toast" id="formToast"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCALIZAÇÃO -->
+    <section id="localizacao">
+      <div class="container">
+        <div class="loc-grid">
+          <div class="loc-copy rv">
+            <div class="section-label">Localização</div>
+            <h2 class="h2">Indaiatuba —<br><em>qualidade de vida</em><br>reconhecida.</h2>
+            <p class="body-text" style="margin-top:16px">
+              Uma cidade que equilibra a tranquilidade de interior com a infraestrutura de metrópole. A distância certa de Campinas e São Paulo, com acesso às principais rodovias da região.
+            </p>
+            <div class="loc-tags">
+              <span class="loc-tag">Região de Campinas</span>
+              <span class="loc-tag">Acesso às rodovias</span>
+              <span class="loc-tag">Escolas e comércio próximos</span>
+              <span class="loc-tag">Infraestrutura completa</span>
+            </div>
+            <div class="loc-cta">
+              <a class="btn-dark" href="#contato">Solicitar rota e informações</a>
+            </div>
+          </div>
+          <div class="loc-map rv d1">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58982.82505688946!2d-47.26302805!3d-23.09082685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cf5bc4dc5e1bbb%3A0x6e20c1b5e8e3ef28!2sIndaiatuba%2C%20SP!5e0!3m2!1spt-BR!2sbr" title="Mapa de Indaiatuba" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div class="faq-grid">
+          <div class="faq-copy rv">
+            <div class="section-label">FAQ</div>
+            <h2 class="h2">Perguntas<br><em>frequentes.</em></h2>
+            <p class="body-text" style="margin-top:16px">
+              Está com dúvidas? Entre em contato e nossa equipe responde com atenção e sem pressa.
+            </p>
+            <div style="margin-top:28px">
+              <a class="btn-dark" href="#contato">Fale com nossa equipe</a>
+            </div>
+          </div>
+          <div class="faq-list rv d1">
+            <details class="faqi">
+              <summary><span>O que torna o Vila Paradiso um condomínio de alto padrão?</span><i>+</i></summary>
+              <div class="ans">O alto padrão é percebido no conjunto: lotes amplos com a partir de 420 m², urbanismo planejado, fiação subterrânea, paisagismo integrado, portaria 24h e uma atmosfera que preserva a qualidade do ambiente ao longo dos anos.</div>
+            </details>
+            <details class="faqi">
+              <summary><span>Como funciona o agendamento de visita?</span><i>+</i></summary>
+              <div class="ans">Basta preencher o formulário com nome, contato e interesse. Nossa equipe retorna rapidamente para alinhar data, horário e apresentação personalizada conforme o que você procura.</div>
+            </details>
+            <details class="faqi">
+              <summary><span>Quais são as opções disponíveis — lotes ou casas prontas?</span><i>+</i></summary>
+              <div class="ans">O condomínio oferece lotes a partir de 420 m². Entre em contato para receber informações detalhadas sobre disponibilidade, metragens e condições de aquisição.</div>
+            </details>
+            <details class="faqi">
+              <summary><span>O condomínio fica em qual parte de Indaiatuba?</span><i>+</i></summary>
+              <div class="ans">O Jardim Vila Paradiso está localizado em Indaiatuba (SP), com acesso facilitado às principais rodovias da região de Campinas. Solicite o endereço completo e rota pelo formulário de contato.</div>
+            </details>
+            <details class="faqi">
+              <summary><span>Qual é a taxa de condomínio e o que está incluso?</span><i>+</i></summary>
+              <div class="ans">Os valores de condomínio cobrem portaria 24h, manutenção de áreas comuns, paisagismo e infraestrutura. Para informações atualizadas, entre em contato com nossa equipe comercial.</div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="brand-name">Jardim Vila Paradiso</span>
+          <p class="footer-desc">Um condomínio de alto padrão em Indaiatuba (SP) onde natureza preservada, urbanismo elegante e arquitetura contemporânea se unem para elevar a qualidade de vida.</p>
+        </div>
+        <div>
+          <h5>Navegar</h5>
+          <ul>
+            <li><a href="#conceito">Conceito</a></li>
+            <li><a href="#diferenciais">Diferenciais</a></li>
+            <li><a href="#galeria">Galeria</a></li>
+            <li><a href="#localizacao">Localização</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Contato</h5>
+          <ul>
+            <li><a href="#contato">Agendar visita</a></li>
+            <li><a href="#contato">Solicitar informações</a></li>
+            <li><a href="#contato">Receber apresentação</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Localização</h5>
+          <ul>
+            <li><a href="#localizacao">Indaiatuba, SP</a></li>
+            <li><a href="#localizacao">Região de Campinas</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Jardim Vila Paradiso · Todos os direitos reservados</span>
+        <span>Indaiatuba · São Paulo · Brasil</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // NAV scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', scrollY > 60);
+    }, { passive: true });
+
+    // Hero BG
+    const heroBg = document.getElementById('heroBg');
+    window.addEventListener('load', () => heroBg.classList.add('loaded'));
+
+    // FAB top
+    const fabTop = document.getElementById('fabTop');
+    fabTop.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+    window.addEventListener('scroll', () => {
+      fabTop.classList.toggle('show', scrollY > 500);
+    }, { passive: true });
+
+    // Mobile menu
+    const burger = document.getElementById('burger');
+    const mobMenu = document.getElementById('mobMenu');
+    const mobClose = document.getElementById('mobClose');
+    burger.addEventListener('click', () => { mobMenu.classList.add('open'); document.body.style.overflow = 'hidden'; });
+    function closeMob() { mobMenu.classList.remove('open'); document.body.style.overflow = ''; }
+    mobClose.addEventListener('click', closeMob);
+    mobMenu.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', closeMob));
+    window.addEventListener('keydown', e => { if (e.key === 'Escape') closeMob(); });
+
+    // Reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+    }, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+    // Gallery slider
+    const track = document.getElementById('galTrack');
+    const dotsWrap = document.getElementById('galDots');
+    const slides = track.querySelectorAll('.gal-slide');
+    let cur = 0;
+
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'gal-dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(d);
+    });
+
+    function goTo(n) {
+      cur = Math.max(0, Math.min(n, slides.length - 1));
+      const w = slides[0].getBoundingClientRect().width + 16;
+      track.style.transform = `translateX(-${cur * w}px)`;
+      dotsWrap.querySelectorAll('.gal-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    }
+
+    document.getElementById('galPrev').addEventListener('click', () => goTo(cur - 1));
+    document.getElementById('galNext').addEventListener('click', () => goTo(cur + 1));
+    window.addEventListener('resize', () => goTo(cur));
+
+    // Form
+    function handleForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('fname').value.trim();
+      const email = document.getElementById('femail').value.trim();
+      const toast = document.getElementById('formToast');
+      const btn = document.getElementById('formBtn');
+      if (!name || !email) {
+        toast.textContent = 'Por favor, preencha nome e e-mail.';
+        toast.classList.add('show');
+        return;
+      }
+      toast.textContent = 'Mensagem recebida! Nossa equipe entrará em contato em breve.';
+      toast.classList.add('show');
+      btn.textContent = 'Enviado ✓';
+      setTimeout(() => {
+        btn.innerHTML = 'Solicitar contato <svg viewBox="0 0 24 24" width="15" height="15" style="stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+        document.getElementById('leadForm').reset();
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
